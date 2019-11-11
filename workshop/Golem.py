@@ -1,49 +1,26 @@
 '''
-Class that represents the golem API, contains methods to create update and
-destroy golems.
+Base implementation of the golems that will be started in a separate thread.
 '''
 
-from flask import request
-from flask_restful import Resource, reqparse
+import threading
+import time
 
-golems = {}
 
-parser = reqparse.RequestParser()
-parser.add_argument('golem_name')
-parser.add_argument('golem_type')
-
-class Golem(Resource):
+class Golem(object):
     '''Golems are meant to be created and mindlessly work for it's creator.
     '''
-    def get(self, golem_id):
-        return golems[golem_id]
-    
-    def delete(self, golem_id):
-        del golems[golem_id]
-        return '', 204
 
-    def put(self, golem_id):
-        json_data = request.get_json(force=True)
-        golem = {
-            'name': json_data['golem_name'],
-            'type': json_data['golem_type']
-        }
-        golems[golem_id] = golem
-        return golem, 201
+    def __init__(self, golem_id, golem_name, golem_type, golem_config):
+        self.id = golem_id
+        self.name = golem_name
+        self.type = golem_type
+        self.config = golem_config
+        thread = threading.Thread(target=self.run)
+        thread.daemon = True
+        thread.start()
 
-
-class Golems(Resource):
-    '''A master can never be sure what his creations are really up to
-    '''
-    def get(self):
-        return golems
-
-    def post(self):
-        json_data = request.get_json(force=True)
-        golem = {
-            'name': json_data['golem_name'],
-            'type': json_data['golem_type']
-        }
-        golem_id = len(golems)
-        golems[golem_id] = golem
-        return golem, 201
+    def run(self):
+        '''Main loop of a golem, will either run continuously on a background
+        task or execute one task.
+        '''
+        print('Template task')

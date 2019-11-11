@@ -6,7 +6,7 @@ their new master.
 from flask import Flask
 from flask_restful import Api
 
-from workshop import Golem 
+from workshop import Golem_API
 
 app = Flask(__name__)
 api = Api(app)
