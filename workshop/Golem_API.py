@@ -7,6 +7,7 @@ from flask import request
 from flask_restful import Resource, reqparse
 
 from workshop.Golem import Golem
+from workshop.GolemBuilder import GolemBuilder
 
 golems = {}
 
@@ -24,7 +25,8 @@ class Golem_API(Resource):
         json_data = request.get_json(force=True)
         golem = {
             'name': json_data['golem_name'],
-            'type': json_data['golem_type']
+            'type': json_data['golem_type'],
+            'config': json_data['golem_config']
         }
         golems[golem_id] = golem
         return golem, 201
@@ -40,9 +42,17 @@ class Golems_API(Resource):
         json_data = request.get_json(force=True)
         golem = {
             'name': json_data['golem_name'],
-            'type': json_data['golem_type']
+            'type': json_data['golem_type'],
+            'config': json_data['golem_config']
         }
         golem_id = len(golems)
-        Golem(golem_id, json_data['golem_name'], json_data['golem_type'], {})
+        if golem['type'] == 'GolemBuilder':
+            GolemBuilder(
+                golem_id,
+                golem['name'],
+                golem['type'],
+                golem['config']
+            )
+        # Golem(golem_id, golem['name'], golem['type'], golem, ['config'])
         golems[golem_id] = golem
         return golem, 201
