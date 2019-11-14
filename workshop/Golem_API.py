@@ -6,9 +6,11 @@ destroy golems.
 from flask import request
 from flask_restful import Resource, reqparse
 
+from workshop.Golem import Golem
+
 golems = {}
 
-class Golem(Resource):
+class Golem_API(Resource):
     '''Golems are meant to be created and mindlessly work for it's creator.
     '''
     def get(self, golem_id):
@@ -28,7 +30,7 @@ class Golem(Resource):
         return golem, 201
 
 
-class Golems(Resource):
+class Golems_API(Resource):
     '''A master can never be sure what his creations are really up to
     '''
     def get(self):
@@ -41,5 +43,6 @@ class Golems(Resource):
             'type': json_data['golem_type']
         }
         golem_id = len(golems)
+        Golem(golem_id, json_data['golem_name'], json_data['golem_type'], {})
         golems[golem_id] = golem
         return golem, 201
