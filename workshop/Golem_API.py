@@ -11,6 +11,7 @@ from flask_restful import Resource, reqparse
 
 from workshop.Golem import Golem
 from workshop.GolemBuilder import GolemBuilder
+from workshop.AWSHunter import AWSHunter
 
 golems = {}
 
@@ -39,9 +40,9 @@ class Golems_API(Resource):
     '''A master can never be sure what his creations are really up to
     '''
     def get(self):
-        cursor = get_db_cursor()
-        cursor.execute('SELECT * FROM golems')
-        golems = cursor.fetchall()
+        # cursor = get_db_cursor()
+        # cursor.execute('SELECT * FROM golems')
+        # golems = cursor.fetchall()
         return golems
 
     def post(self):
@@ -59,14 +60,21 @@ class Golems_API(Resource):
                 golem['type'],
                 golem['config']
             )
-        cursor = get_db_cursor()
-        cursor.execute('INSERT INTO golems(id, name, type, config) VALUES(?,?,?,?)', (golem_id, golem['name'], golem['type'], json.dumps(golem['config'])))
+        if golem['type'] == 'AWSHunter':
+            AWSHunter(
+                golem_id,
+                golem['name'],
+                golem['type'],
+                golem['config']
+            )
+        # cursor = get_db_cursor()
+        # cursor.execute('INSERT INTO golems(id, name, type, config) VALUES(?,?,?,?)', (golem_id, golem['name'], golem['type'], json.dumps(golem['config'])))
         # Golem(golem_id, golem['name'], golem['type'], golem, ['config'])
         golems[golem_id] = golem
         return golem, 201
 
 
-def get_db_cursor():
-    conn = sqlite3.connect('golems.db')
-    cursor = conn.cursor()
-    return cursor
+# def get_db_cursor():
+#     conn = sqlite3.connect('golems.db')
+#     cursor = conn.cursor()
+#     return cursor
