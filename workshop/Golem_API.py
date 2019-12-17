@@ -48,22 +48,22 @@ class Golems_API(Resource):
     def post(self):
         json_data = request.get_json(force=True)
         golem = {
-            'name': json_data['golem_name'],
             'type': json_data['golem_type'],
             'config': json_data['golem_config']
         }
         golem_id = len(golems)
         if golem['type'] == 'GolemBuilder':
-            GolemBuilder(
-                golem_id,
-                golem['name'],
-                golem['type'],
-                golem['config']
-            )
+            if golem['config'].get('golem_name'):
+                GolemBuilder(
+                    golem_id,
+                    golem['type'],
+                    golem['config']
+                )
+            else:
+                return '`golem_name` missing inside of the golem config!', 402
         if golem['type'] == 'AWSHunter':
             AWSHunter(
                 golem_id,
-                golem['name'],
                 golem['type'],
                 golem['config']
             )
@@ -73,8 +73,3 @@ class Golems_API(Resource):
         golems[golem_id] = golem
         return golem, 201
 
-
-# def get_db_cursor():
-#     conn = sqlite3.connect('golems.db')
-#     cursor = conn.cursor()
-#     return cursor

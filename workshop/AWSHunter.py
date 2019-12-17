@@ -15,8 +15,8 @@ class AWSHunter(Golem):
     '''AWSHunter is a golem that hunts down all the API events of a single role
     '''
 
-    def __init__(self, golem_id, golem_name, golem_type, config):
-        super().__init__(golem_id, golem_name, golem_type, config)
+    def __init__(self, golem_id, golem_type, config):
+        super().__init__(golem_id, golem_type, config)
         self.session = boto3.Session()
         print(self.session)
         print('Init client...')
