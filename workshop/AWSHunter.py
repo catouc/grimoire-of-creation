@@ -4,12 +4,15 @@ Golem template
 
 import csv
 import datetime
-import threading
 import json
+import logging
+import threading
 
 import boto3
 
 from workshop.Golem import Golem
+
+logger = logging.getLogger(__name__)
 
 class AWSHunter(Golem):
     '''AWSHunter is a golem that hunts down all the API events of a single role

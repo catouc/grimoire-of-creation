@@ -2,11 +2,13 @@
 A golem building golems! Neat.
 '''
 
-import threading
+import logging
 
 from jinja2 import Environment, PackageLoader
 
 from workshop.Golem import Golem
+
+logger = logging.getLogger(__name__)
 
 class GolemBuilder(Golem):
     '''Small temaplting engine that creates all my boilerplate for a new golem.

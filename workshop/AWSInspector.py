@@ -3,10 +3,13 @@ Golem template
 '''
 
 import datetime
+import logging
 
 import boto3
 
 from workshop.Golem import Golem
+
+logger = logging.getLogger(__name__)
 
 class AWSInspector(Golem):
     '''Template class for a new golem setup

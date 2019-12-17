@@ -4,6 +4,7 @@ destroy golems.
 '''
 
 import json
+import logging
 import sqlite3
 
 from flask import request
@@ -12,6 +13,8 @@ from flask_restful import Resource, reqparse
 from workshop.Golem import Golem
 from workshop.GolemBuilder import GolemBuilder
 from workshop.AWSHunter import AWSHunter
+
+logger = logging.getLogger(__name__)
 
 golems = {}
 

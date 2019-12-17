@@ -2,6 +2,10 @@
 Base implementation of the golems that will be started in a separate thread.
 '''
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class Golem(object):
     '''Golems are meant to be created and mindlessly work for it's creator.
     '''

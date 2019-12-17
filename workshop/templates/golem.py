@@ -2,7 +2,11 @@
 Golem template
 '''
 
+import logging
+
 from workshop.Golem import Golem
+
+logger = logging.getLogger(__name__)
 
 class {{golem_name}}(Golem):
     '''Template class for a new golem setup
