@@ -6,13 +6,13 @@ import csv
 import datetime
 import json
 import logging
-import threading
 
 import boto3
 
 from workshop.Golem import Golem
 
 logger = logging.getLogger(__name__)
+
 
 class AWSHunter(Golem):
     '''AWSHunter is a golem that hunts down all the API events of a single role
@@ -53,7 +53,6 @@ class AWSHunter(Golem):
             for event in events:
                 csvwriter.writerow(event.values())
 
-    
     def generate_data(self):
         paginator = self.client.get_paginator('lookup_events')
         for e in paginator.paginate(
@@ -62,5 +61,3 @@ class AWSHunter(Golem):
                 raw = json.loads(event['CloudTrailEvent'])
                 raw['readOnly'] = event['ReadOnly']
                 yield raw
-
-     

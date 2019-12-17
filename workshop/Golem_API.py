@@ -3,14 +3,11 @@ Class that represents the golem API, contains methods to create update and
 destroy golems.
 '''
 
-import json
 import logging
-import sqlite3
 
 from flask import request
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 
-from workshop.Golem import Golem
 from workshop.GolemBuilder import GolemBuilder
 from workshop.AWSHunter import AWSHunter
 
@@ -18,12 +15,13 @@ logger = logging.getLogger(__name__)
 
 golems = {}
 
+
 class Golem_API(Resource):
     '''Golems are meant to be created and mindlessly work for it's creator.
     '''
     def get(self, golem_id):
         return golems[golem_id]
-    
+
     def delete(self, golem_id):
         del golems[golem_id]
         return '', 204
@@ -70,9 +68,5 @@ class Golems_API(Resource):
                 golem['type'],
                 golem['config']
             )
-        # cursor = get_db_cursor()
-        # cursor.execute('INSERT INTO golems(id, name, type, config) VALUES(?,?,?,?)', (golem_id, golem['name'], golem['type'], json.dumps(golem['config'])))
-        # Golem(golem_id, golem['name'], golem['type'], golem, ['config'])
         golems[golem_id] = golem
         return golem, 201
-

@@ -8,10 +8,11 @@ from workshop.Golem import Golem
 
 logger = logging.getLogger(__name__)
 
-class {{golem_name}}(Golem):
+
+class {{golem_name}}(Golem):  # noqa: E999
     '''Template class for a new golem setup
     '''
-    
+
     def __init__(self, golem_id, golem_type, golem_config):
         super().__init__(golem_id, golem_type, golem_config)
         # insert additional init code here
