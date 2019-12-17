@@ -18,10 +18,7 @@ class AWSHunter(Golem):
     def __init__(self, golem_id, golem_type, config):
         super().__init__(golem_id, golem_type, config)
         self.session = boto3.Session()
-        print(self.session)
-        print('Init client...')
         self.client = self.session.client('cloudtrail')
-        print(self.client)
         if self.config.get('StartTime'):
             self.starttime = self.config.get('StartTime')
             self.stoptime = self.config.get('StopTime')
